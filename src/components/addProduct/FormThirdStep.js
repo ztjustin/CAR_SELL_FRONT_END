@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { Formik, Form, Field } from "formik";
 import Box from "@material-ui/core/Box";
@@ -11,45 +11,22 @@ import { Button } from "@material-ui/core";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import { fieldToTextField } from "formik-material-ui";
 import { makeStyles } from "@material-ui/core/styles";
+import { connect } from "react-redux";
+import getAllEquipments from "../../redux/actions/getAllEquipments"; 
 import * as yup from "yup";
 
 const validationSchema = yup.object({
-  // equipment: yup.string().required(),
+  equipment: yup.string().required(),
 });
 
-const skills = [
-  {
-    label: 'PostgreSQL',
-    value: 'PostgreSQL'
-  },
-  {
-    label: 'Pythonaa',
-    value: 'Pythona'
-  },
-  {
-    label: 'React',
-    value: 'React'
-  },
-  {
-    label: 'Redis',
-    value: 'Redis'
-  },
-  {
-    label: 'Swift',
-    value: 'Swift'
-  },
-  {
-    label: 'Webpack',
-    value: 'Webpack'
-  }
-]
 
 const FormikAutocomplete = ({ textFieldProps, label ,  ...props }) => {
   const {
-    form: { setTouched, setFieldValue },
+    form: { setTouched, setFieldValue, values },
   } = props;
   const { error, helperText, ...field } = fieldToTextField(props);
   const { name } = field;
+  console.log(values)
 
   return (
     <Autocomplete
@@ -57,7 +34,9 @@ const FormikAutocomplete = ({ textFieldProps, label ,  ...props }) => {
       {...field}
       onChange={(_, value) => setFieldValue(name, value)}
       onBlur={() => setTouched({ [name]: true })}
-      getOptionLabel={(option) => option.value}
+      value={values.equipment}
+      getOptionLabel={option => option.name}
+      getOptionSelected={(option, value) => value._id === option._id}
       renderInput={(props) => (
         <MuiTextField
           {...props}
@@ -84,9 +63,15 @@ export const FormThirdStep = ({
   prevStep,
   currentStep,
   stepsLabels,
+  equipments,
+  getAllEquipments,
 }) => {
   const classes = useStyles();
   const [direction, setDirection] = useState("back");
+
+  useEffect(()=>{
+    getAllEquipments();
+  },[getAllEquipments])
   return (
     <>
       <Formik
@@ -108,7 +93,7 @@ export const FormThirdStep = ({
                       <Field
                         name="equipment"
                         component={FormikAutocomplete}
-                        options={skills}
+                        options={equipments}
                         label="Equipamiento"
                         textFieldProps={{
                           fullWidth: true,
@@ -157,4 +142,19 @@ FormThirdStep.propTypes = {
   prevStep: PropTypes.func.isRequired,
 };
 
-export default FormThirdStep;
+const mapStateToProps = (state) => {
+  return {
+    equipments: state.equipments,
+  };
+};
+
+const mapDispatchToProps = {
+  getAllEquipments,
+};
+
+const wrapper = connect(mapStateToProps, mapDispatchToProps);
+
+const component = wrapper(FormThirdStep);
+
+export default component;
+

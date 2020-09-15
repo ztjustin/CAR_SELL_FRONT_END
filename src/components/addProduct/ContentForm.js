@@ -3,14 +3,16 @@ import FormFirstStep from "./FormFirstStep";
 import FormSecondStep from "./FormSecondStep";
 import FormThirdStep from "./FormThirdStep";
 import FormFourthStep from "./FormFourthStep";
+import FormFifthStep from "./FormFifthStep";
 import Confirm from "./Confirm";
 
 const stepsLabels = [
   "Informacion General",
   "Detalle del Motor y Carroceria",
   "Equipamiento",
-  "Choosing Images",
-  "Confirm"
+  "Eligiendo Images",
+  "Opcionales",
+  "Confirm",
 ];
 
 const ContentForm = () => {
@@ -34,9 +36,17 @@ const ContentForm = () => {
     licensePlate: "",
     doors: "",
     province: "",
-    equipment: [],
+    equipment: [
+      {
+        _id: "5f5c2fe97e16f621ac9407bf",
+        name: "radio",
+        createdAt: "2020-09-12T02:18:17.661Z",
+        updatedAt: "2020-09-12T02:18:17.661Z",
+      },
+    ],
     comment: "",
-    files: []
+    files: [],
+    packageValue: "",
   });
   const nextStep = () => setStep((prev) => prev + 1);
   const prevStep = () => setStep((prev) => prev - 1);
@@ -65,34 +75,47 @@ const ContentForm = () => {
     case 2:
       return (
         <FormThirdStep
-        formData={formData}
-        setFormData={setFormData}
-        nextStep={nextStep}
-        prevStep={prevStep}
-        currentStep={step}
-        stepsLabels={stepsLabels}
+          formData={formData}
+          setFormData={setFormData}
+          nextStep={nextStep}
+          prevStep={prevStep}
+          currentStep={step}
+          stepsLabels={stepsLabels}
         />
       );
     case 3:
       return (
         <FormFourthStep
-        formData={formData}
-        setFormData={setFormData}
-        nextStep={nextStep}
-        prevStep={prevStep}
-        currentStep={step}
-        stepsLabels={stepsLabels}
+          formData={formData}
+          setFormData={setFormData}
+          nextStep={nextStep}
+          prevStep={prevStep}
+          currentStep={step}
+          stepsLabels={stepsLabels}
         />
       );
     case 4:
-      return <Confirm 
-      formData={formData}
-      setFormData={setFormData}
-      nextStep={nextStep}
-      prevStep={prevStep}
-      currentStep={step}
-      stepsLabels={stepsLabels}
-      />;
+      return (
+        <FormFifthStep
+          formData={formData}
+          setFormData={setFormData}
+          nextStep={nextStep}
+          prevStep={prevStep}
+          currentStep={step}
+          stepsLabels={stepsLabels}
+        />
+      );
+    case 5:
+      return (
+        <Confirm
+          formData={formData}
+          setFormData={setFormData}
+          nextStep={nextStep}
+          prevStep={prevStep}
+          currentStep={step}
+          stepsLabels={stepsLabels}
+        />
+      );
     default:
       return "UNKNOWN STEP";
   }

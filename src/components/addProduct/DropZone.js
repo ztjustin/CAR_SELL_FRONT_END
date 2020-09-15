@@ -74,8 +74,6 @@ const DropZone = (props) => {
       files.splice(index, 1);
       setFieldValue("files", files);
     }
-
-    console.log(values.files);
   };
 
   const {

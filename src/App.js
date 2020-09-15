@@ -6,7 +6,6 @@ import Products from "./components/products";
 import AddProduct from "./components/addProduct";
 import { history, PrivateRoute } from "./helpers";
 import { CookiesProvider } from 'react-cookie';
-import DropZone from "./components/addProduct/DropZone";
 
 
 class App extends React.Component {
@@ -26,10 +25,9 @@ class App extends React.Component {
       <CookiesProvider>
         <Router history={history}>
           <div>
-            <PrivateRoute exact path="/dashboard" component={AddProduct} />
-            <Route path="/login" component={Login} />
-            <Route path="/home" component={Products} />
-            <Route path="/testing" component={DropZone} />
+            <PrivateRoute exact path="/dashboard/" component={AddProduct} />
+            <Route path="/login/" component={Login} />
+            <Route path="/home/" component={Products} />
           </div>
         </Router>
       </CookiesProvider>

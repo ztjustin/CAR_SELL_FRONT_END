@@ -9,6 +9,7 @@ import brands from './reducers/brands';
 import products from './reducers/products';
 import auth from './reducers/auth';
 import alert from './reducers/alert';
+import equipments from './reducers/equipments';
 
 
 const reducer = combineReducers({
@@ -19,6 +20,7 @@ const reducer = combineReducers({
     brands,
     auth,
     alert,
+    equipments,
 });
 
 

@@ -4,6 +4,7 @@ import { withStyles } from "@material-ui/core";
 import ContentForm from "./ContentForm";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
+import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
 
 const styles = ({ breakpoints }) => ({
@@ -28,7 +29,7 @@ const Page = (props) => {
   return (
     <div className={classes.root}>
       <Typography weight={"bold"} variant={"h4"} gutterBottom>
-        Tienda Online
+        <Link underline={"none"}>Vehiculo Nuevo</Link>
       </Typography>
       <Grid container spacing={1} >
         <Grid item xs={12}>

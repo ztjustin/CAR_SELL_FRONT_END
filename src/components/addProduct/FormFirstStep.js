@@ -1,20 +1,22 @@
 import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { Formik, Form, Field } from "formik";
-import { TextField } from "formik-material-ui";
+import { TextField , Switch} from "formik-material-ui";
 import Stepper from "@material-ui/core/Stepper";
 import Step from "@material-ui/core/Step";
 import StepLabel from "@material-ui/core/StepLabel";
 import StepContent from "@material-ui/core/StepContent";
-import { Button } from "@material-ui/core";
+import { Button , FormControlLabel } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import MenuItem from "@material-ui/core/MenuItem";
 import Box from "@material-ui/core/Box";
 import DateFnsUtils from "@date-io/date-fns";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
-import InputAdornment from "@material-ui/core/InputAdornment";
 import getAllCategories from "../../redux/actions/getAllCategories";
-import getAllBrands from "../../redux/actions/getAllBrands"; 
+import getAllBrands from "../../redux/actions/getAllBrands";
+import NumberFormatCustom from "./NumberFormatCustom";
+import InputAdornment from '@material-ui/core/InputAdornment';
+// import Checkbox from '@material-ui/core/Checkbox';
 import { connect } from "react-redux";
 
 import * as yup from "yup";
@@ -23,17 +25,15 @@ const validationSchema = yup.object({
   // brand: yup.string().required("Marca del vehiculo es obligatorio"),
   // model: yup.string().required("Modelo del vehiculo es obligatorio"),
   // category: yup.string().required("Categoria del vehiculo es obligatorio"),
-  // year: yup
-  //   .number()
-  //   .typeError("year must be a number")
-  //   .positive("year must be greater than zero")
-  //   .required("year is required"),
   // state: yup.string().required("Estado del vehiculo es obligatorio"),
+  // year : yup.number()
+  // .test('len', 'Invalid year', val => val && val.toString().length === 4 ).min(new Date().getFullYear()-300)
+  // .max(new Date().getFullYear()+2),
   // price: yup
   //   .number()
   //   .typeError("price must be a number")
   //   .positive("price must be greater than zero")
-  //   .required("price is required"),
+  //   .required("Precio es obligatorio"),
   // province: yup.string().required("Provincia del vehiculo es obligatorio"),
   // // tradable: false,
   // // taxes: false,
@@ -83,6 +83,7 @@ const useStyles = makeStyles((theme) => ({
   button: {
     margin: theme.spacing(1),
   },
+
 }));
 
 const FormFirstStep = ({
@@ -137,7 +138,7 @@ const FormFirstStep = ({
                           }}
                         >
                           {brands.map((option) => (
-                            <MenuItem key={option._id} value={option.name}>
+                            <MenuItem key={option._id} value={option._id}>
                               {option.name}
                             </MenuItem>
                           ))}
@@ -170,7 +171,7 @@ const FormFirstStep = ({
                           }}
                         >
                           {categories.map((option) => (
-                            <MenuItem key={option._id} value={option.name}>
+                            <MenuItem key={option._id} value={option._id}>
                               {option.name}
                             </MenuItem>
                           ))}
@@ -238,11 +239,8 @@ const FormFirstStep = ({
                           name="price"
                           variant="outlined"
                           InputProps={{
-                            startAdornment: (
-                              <InputAdornment position="start">
-                                ₡
-                              </InputAdornment>
-                            ),
+                            inputComponent: NumberFormatCustom,
+                            startAdornment: <InputAdornment position="start">₡</InputAdornment>,
                           }}
                           style={{ width: "60%" }}
                         />
@@ -257,6 +255,26 @@ const FormFirstStep = ({
                           style={{ width: "100%" }}
                         />
                       </Box>
+
+                      <Box margin={1}>
+                        <FormControlLabel
+                          control={
+                            <Field component={Switch} type="checkbox" name="taxes" />
+                          }
+                          label="Pago Impuestos?"
+                        />
+                      </Box>
+
+                      <Box margin={1}>
+                        <FormControlLabel
+                          control={
+                            <Field component={Switch} type="checkbox" name="receivedCar" />
+                          }
+                          label="Recibe Carro?"
+                        />
+                      </Box>
+
+
 
                       <div>
                         <Button
@@ -307,3 +325,4 @@ const wrapper = connect(mapStateToProps, mapDispatchToProps);
 const component = wrapper(FormFirstStep);
 
 export default component;
+

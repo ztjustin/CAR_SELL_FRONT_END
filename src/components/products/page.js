@@ -50,12 +50,7 @@ const Page = (props) => {
   return (
     <div className={classes.root}>
       <Typography weight={"bold"} variant={"h4"} gutterBottom>
-        Tienda OnLine <Link underline={"none"}>Layout</Link>
-      </Typography>
-      <Typography variant="h5" color="textSecondary" paragraph>
-        Something short and leading about the collection below—its contents, the
-        creator, etc. Make it short and sweet, but not too short so folks
-        don&apos;t simply skip over it entirely.
+        <Link underline={"none"}>Autos Descados</Link>
       </Typography>
 
       <Grid container spacing={2} justify="center">
@@ -70,10 +65,10 @@ const Page = (props) => {
 
       <Grid item xs={12} sm={12} md={12} className={classes.pagination}>
         {/* There is already an h1 in the page, let's not duplicate it. */}
-        <Typography variant="h2" component="h2">
+        {/* <Typography variant="h2" component="h2">
           New Products
-        </Typography>
-        {/* <Pagination count={totalPages} onChange={onChange} color="secondary" /> */}
+        </Typography> */}
+        <Pagination count={totalPages} onChange={onChange} color="secondary" />
       </Grid>
 
       <Grid container spacing={4}>

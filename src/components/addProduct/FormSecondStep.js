@@ -10,6 +10,8 @@ import { Button } from "@material-ui/core";
 import MenuItem from "@material-ui/core/MenuItem";
 import { makeStyles } from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
+import NumberFormat from 'react-number-format';
+import InputAdornment from '@material-ui/core/InputAdornment';
 import * as yup from "yup";
 
 const validationSchema = yup.object({
@@ -20,7 +22,9 @@ const validationSchema = yup.object({
   // fuel: yup.string().required("Gasolina is required"),
   // transmission: yup.string().required("Transmision is required"),
   // licensePlate: yup.string().required("Placa is required"),
-  // doors: yup.string().required("# Puertas is required"),
+  // doors : yup.number()
+  // .test('len', 'numero invalido', val => val && val.toString().length === 1 ).min(2)
+  // .max(5, "Numero tiene que ser menor o igual que 5"),
 });
 
 const fuels = [
@@ -89,21 +93,29 @@ export const FormSecondStep = ({
                     <Box margin={1}>
                       <Field
                         component={TextField}
-                        type="number"
+                        type="text"
                         label="Cilindrada del vehiculo"
                         name="engine"
                         variant="outlined"
                         style={{ width: "60%" }}
+                        InputProps={{
+                          inputComponent: NumberFormatCustom,
+                          startAdornment: <InputAdornment position="start">CC.</InputAdornment>,
+                        }}
                       />
                     </Box>
                     <Box margin={1}>
                       <Field
                         component={TextField}
-                        type="number"
+                        type="text"
                         label="Kilometraje del vehiculo"
                         name="km"
                         variant="outlined"
                         style={{ width: "60%" }}
+                        InputProps={{
+                          inputComponent: NumberFormatCustom,
+                          startAdornment: <InputAdornment position="start">Km</InputAdornment>,
+                        }}
                       />
                     </Box>
                     <Box margin={1}>
@@ -229,3 +241,33 @@ FormSecondStep.propTypes = {
 };
 
 export default FormSecondStep;
+
+//CUSTOM COMPONENT FOR FORMAT NUMBER
+
+const NumberFormatCustom = (props) => {
+  const { inputRef, onChange, ...other } = props;
+
+  return (
+    <NumberFormat
+      {...other}
+      getInputRef={inputRef}
+      onValueChange={(values) => {
+        onChange({
+          target: {
+            name: props.name,
+            value: values.value,
+          },
+        });
+      }}
+      thousandSeparator
+      isNumericString
+    />
+  );
+}
+
+NumberFormatCustom.propTypes = {
+  inputRef: PropTypes.func.isRequired,
+  name: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
+};
+
